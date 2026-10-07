@@ -1,16 +1,14 @@
 document.addEventListener('DOMContentLoaded', () => {
-  /* ====== Lista de Fotos dos Idosos (Variando dinamicamente) ====== */
+
+  /* ====== 1. Carrossel de Fotos de Idosos ====== */
   const IMAGENS_IDOSOS = ['modelo1.png', 'modelo2.png', 'modelo3.png'];
-  // Imagem reserva (Unsplash) caso as imagens locais ainda não estejam na pasta
   const FALLBACK_IMG = 'https://images.unsplash.com/photo-1581579438747-1dc8d1e05d92?auto=format&fit=crop&w=900&q=80';
   
   let imgIndex = 0;
   const imgElement = document.getElementById('img-idoso');
 
-  // Alterna as fotos dos idosos com efeito de FADE
   function rotacionarImagem() {
     if (!imgElement) return;
-    
     imgIndex = (imgIndex + 1) % IMAGENS_IDOSOS.length;
     imgElement.classList.add('fade');
 
@@ -20,17 +18,15 @@ document.addEventListener('DOMContentLoaded', () => {
     }, 400);
   }
 
-  // Se a imagem PNG local não for encontrada, aciona o fallback
   if (imgElement) {
     imgElement.addEventListener('error', () => {
       imgElement.src = FALLBACK_IMG;
     });
   }
 
-  // Alterna a foto a cada 5 segundos
   setInterval(rotacionarImagem, 5000);
 
-  /* ====== Perguntas e Notas ====== */
+  /* ====== 2. Dados das Perguntas ====== */
   const PERGUNTAS = [
     'Como foi o acolhimento na recepção?',
     'O tempo de espera foi satisfatório?',
@@ -61,7 +57,7 @@ document.addEventListener('DOMContentLoaded', () => {
   const TEMPO_AVISO = 15;
   const TEMPO_FIM = 10;
 
-  /* ====== Dom ====== */
+  /* ====== 3. Elementos do DOM e Estado ====== */
   const $ = (id) => document.getElementById(id);
   const telaInicio = $('tela-inicio');
   const telaPergunta = $('tela-pergunta');
@@ -70,11 +66,11 @@ document.addEventListener('DOMContentLoaded', () => {
   const escala = $('escala');
   const barra = $('barra');
 
-  /* ====== Estado ====== */
   let idx = 0;
   let respostas = new Array(PERGUNTAS.length).fill(null);
   let tIdle = null, tAviso = null, tFim = null;
 
+  /* ====== 4. Construção Visual ====== */
   function criarRostoSVG(nivel) {
     return `
       <svg class="rosto" viewBox="0 0 100 100" aria-hidden="true">
@@ -137,6 +133,7 @@ document.addEventListener('DOMContentLoaded', () => {
       : (eUltima ? 'Enviar avaliação' : 'Confirmar e continuar');
   }
 
+  /* ====== 5. Controle de Navegação ====== */
   function mostrar(tela) {
     [telaInicio, telaPergunta, telaFim].forEach((t) => { t.hidden = t !== tela; });
   }
@@ -188,6 +185,7 @@ document.addEventListener('DOMContentLoaded', () => {
     }, 1000);
   }
 
+  /* ====== 6. Gestão de Inatividade ====== */
   function limparTimers() {
     clearTimeout(tIdle);
     clearTimeout(tAviso);
@@ -206,6 +204,49 @@ document.addEventListener('DOMContentLoaded', () => {
     }, TEMPO_INATIVIDADE * 1000);
   }
 
+  /* ====== 7. Modo Quiosque e Saída de Segurança (3 Toques na Logo) ====== */
+  let cliquesLogo = 0;
+  let timerLogo = null;
+  const SENHA_ADMIN = "1234";
+
+  function ativarTelaCheia() {
+    if (!document.fullscreenElement) {
+      document.documentElement.requestFullscreen().catch(() => {});
+    }
+  }
+
+  // Ativa o Modo Tela Cheia na primeira interação de toque na tela
+  document.addEventListener('pointerdown', ativarTelaCheia, { once: true });
+
+  const headerLogo = $('header-logo');
+  if (headerLogo) {
+    headerLogo.addEventListener('click', (e) => {
+      e.stopPropagation();
+      cliquesLogo++;
+
+      clearTimeout(timerLogo);
+
+      if (cliquesLogo === 3) {
+        cliquesLogo = 0;
+        const senha = prompt('Digite a senha para sair do Modo Quiosque:');
+        
+        if (senha === SENHA_ADMIN) {
+          if (document.fullscreenElement) {
+            document.exitFullscreen();
+            alert('Modo Quiosque desativado.');
+          } else {
+            alert('O sistema não está em tela cheia.');
+          }
+        } else if (senha !== null) {
+          alert('Senha incorreta.');
+        }
+      } else {
+        timerLogo = setTimeout(() => { cliquesLogo = 0; }, 1200);
+      }
+    });
+  }
+
+  /* ====== 8. Eventos Globais ====== */
   document.addEventListener('pointerdown', () => {
     if (aviso.hidden) resetInatividade();
   });
