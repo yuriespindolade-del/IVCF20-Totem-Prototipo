@@ -59,7 +59,7 @@ svg {
 }
 
 .brand-logo {
-  height: clamp(40px, 6vh, 68px);
+  height: clamp(70px, 6vh, 90px);
   width: auto;
   object-fit: contain;
 }
