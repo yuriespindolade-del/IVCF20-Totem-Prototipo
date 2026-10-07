@@ -16,8 +16,8 @@
 
   <div id="app">
 
-    <!-- Cabeçalho com Logo -->
-    <header class="header-logo">
+    <!-- Cabeçalho com Logo (Área clicável para o Modo Quiosque) -->
+    <header class="header-logo" id="header-logo" title="Toque 3 vezes para acessar o menu de administrador">
       <img src="logo.svg" alt="Logo da Instituição" class="brand-logo" id="logo-img" onError="this.style.display='none'; document.getElementById('logo-placeholder').style.display='flex';">
       <div id="logo-placeholder" class="logo-fallback" style="display:none;">
         <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" width="22" height="22"><path d="M12 2L2 7l10 5 10-5-10-5zM2 17l10 5 10-5M2 12l10 5 10-5"/></svg>
@@ -65,7 +65,7 @@
           </div>
         </div>
 
-        <!-- Lado Direito: Carrossel PNG de Idosos -->
+        <!-- Lado Direito: Imagem com Rotação (modelo1.png, modelo2.png, modelo3.png) -->
         <div class="hero-image-wrapper">
           <div class="green-card-backdrop"></div>
           <div class="image-frame">
