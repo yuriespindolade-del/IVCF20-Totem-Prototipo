@@ -3,24 +3,22 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover">
-  <title>Totem de Avaliação de Atendimento</title>
+  <title>Totem de Avaliação do Atendimento</title>
 
-  <!-- Fontes Google -->
+  <!-- Fonte Google Plus Jakarta Sans -->
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-  <link href="https://fonts.googleapis.com/css2?family=Atkinson+Hyperlegible:wght@400;700&display=swap" rel="stylesheet">
+  <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@500;700;800&display=swap" rel="stylesheet">
 
-  <!-- Estilos -->
   <link rel="stylesheet" href="style.css">
 </head>
 <body>
 
   <div id="app">
 
-    <!-- Cabeçalho Global (Espaço para Logo) -->
+    <!-- Cabeçalho com Logo -->
     <header class="header-logo">
-      <img src="logo.svg" alt="Logo da Empresa" class="brand-logo" id="logo-img" onError="this.style.display='none'; document.getElementById('logo-placeholder').style.display='flex';">
-      <!-- Placeholder visual exibido caso logo.svg ainda não esteja na pasta -->
+      <img src="logo.svg" alt="Logo da Instituição" class="brand-logo" id="logo-img" onError="this.style.display='none'; document.getElementById('logo-placeholder').style.display='flex';">
       <div id="logo-placeholder" class="logo-fallback" style="display:none;">
         <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M12 2L2 7l10 5 10-5-10-5zM2 17l10 5 10-5M2 12l10 5 10-5"/></svg>
         <span>Sua Logo Aqui</span>
@@ -29,33 +27,66 @@
 
     <!-- 1. Tela Inicial -->
     <section class="screen start" id="tela-inicio" aria-labelledby="titulo-inicio">
-      <div class="content-box">
-        <h1 id="titulo-inicio">Como foi o seu atendimento hoje?</h1>
-        <p>Sua opinião é fundamental. Leva menos de 1 minuto e é totalmente anônima.</p>
-        
-        <button class="cta" id="btn-comecar" type="button">
-          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
-            <path d="M22 14a8 8 0 0 1-8 8"/>
-            <path d="M18 11v-1a2 2 0 0 0-2-2a2 2 0 0 0-2 2"/>
-            <path d="M14 10V9a2 2 0 0 0-2-2a2 2 0 0 0-2 2v1"/>
-            <path d="M10 9.5V4a2 2 0 0 0-2-2a2 2 0 0 0-2 2v10"/>
-            <path d="M18 11a2 2 0 1 1 4 0v3a8 8 0 0 1-8 8h-2c-2.8 0-4.5-.86-5.99-2.34l-3.6-3.6a2 2 0 0 1 2.83-2.82L7 15"/>
-          </svg>
-          Toque para começar
-        </button>
+      <div class="hero-grid">
+        <!-- Lado Esquerdo: Conteúdo e Ação -->
+        <div class="hero-content">
+          <h1 id="titulo-inicio">Avalie o seu atendimento em poucos toques.</h1>
+          <p class="subtitle">Um instrumento simples e rápido para ouvir você e melhorar continuamente nossa atenção à saúde.</p>
+
+          <button class="cta" id="btn-comecar" type="button">
+            <span>Começar</span>
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round">
+              <line x1="5" y1="12" x2="19" y2="12"></line>
+              <polyline points="12 5 19 12 12 19"></polyline>
+            </svg>
+          </button>
+
+          <!-- Badges / Diferenciais (Estilo IVCF-20) -->
+          <div class="features-list">
+            <div class="feature-item">
+              <div class="icon-box">
+                <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="10"/><polyline points="12 6 12 12 16 14"/></svg>
+              </div>
+              <span>Rapidez (1 min)</span>
+            </div>
+            <div class="feature-item">
+              <div class="icon-box">
+                <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M20 6L9 17l-5-5"/></svg>
+              </div>
+              <span>Facilidade</span>
+            </div>
+            <div class="feature-item">
+              <div class="icon-box">
+                <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z"/></svg>
+              </div>
+              <span>100% Anônimo</span>
+            </div>
+          </div>
+        </div>
+
+        <!-- Lado Direito: Container da Foto de Pessoa Idosa com Moldura Orgânica -->
+        <div class="hero-image-wrapper">
+          <div class="green-card-backdrop"></div>
+          <div class="image-frame">
+            <img src="https://images.unsplash.com/photo-1581579438747-1dc8d1e05d92?auto=format&fit=crop&w=900&q=80" alt="Paciente idosa sorrindo" class="senior-img">
+          </div>
+        </div>
       </div>
     </section>
 
     <!-- 2. Tela de Perguntas -->
     <section class="screen" id="tela-pergunta" hidden aria-live="polite">
       <div class="top-nav">
-        <div class="step" id="passo">Pergunta 1 de 5</div>
+        <div class="step-info">
+          <span class="step-badge" id="passo">Pergunta 1 de 5</span>
+          <span class="step-hint">Toque na nota desejada</span>
+        </div>
         <div class="bar" id="barra" aria-hidden="true"></div>
       </div>
 
       <div class="question-container">
         <h1 class="question" id="texto-pergunta"></h1>
-        <p class="hint">Toque na opção que melhor descreve sua experiência:</p>
+        <p class="hint">Sua opinião sincera ajuda nossa equipe a aperfeiçoar os serviços.</p>
         
         <fieldset class="scale" id="escala" aria-label="Notas de 0 a 5"></fieldset>
       </div>
@@ -71,28 +102,27 @@
       <div class="thanks-card">
         <div class="selo" aria-hidden="true">
           <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3" stroke-linecap="round" stroke-linejoin="round">
-            <path d="M4 12.5l5 5L20 6.5"/>
+            <path d="M20 6L9 17l-5-5"/>
           </svg>
         </div>
-        <h1>Muito obrigado!</h1>
-        <p>Sua avaliação foi registrada com sucesso e nos ajuda a melhorar constantemente.</p>
+        <h1>Agradecemos sua participação!</h1>
+        <p>Sua avaliação foi registrada. Ela é fundamental para cuidarmos melhor da sua saúde e bem-estar.</p>
         <p class="contagem" id="contagem"></p>
-        <button class="btn btn-sec" id="btn-inicio" type="button">Encerrar agora</button>
+        <button class="btn btn-sec" id="btn-inicio" type="button">Finalizar</button>
       </div>
     </section>
 
     <!-- Modal de Inatividade -->
     <div class="aviso" id="aviso" hidden role="alertdialog" aria-labelledby="aviso-titulo">
       <div class="caixa">
-        <h2 id="aviso-titulo">Você ainda está aí?</h2>
-        <p>Toque no botão abaixo para continuar de onde parou.</p>
+        <h2 id="aviso-titulo">Precisa de mais tempo?</h2>
+        <p>Toque no botão abaixo para continuar respondendo.</p>
         <button class="btn btn-pri" id="btn-continuar" type="button">Sim, quero continuar</button>
       </div>
     </div>
 
   </div>
 
-  <!-- Scripts -->
   <script src="script.js"></script>
 </body>
 </html>
