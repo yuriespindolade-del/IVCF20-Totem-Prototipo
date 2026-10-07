@@ -1,5 +1,36 @@
 document.addEventListener('DOMContentLoaded', () => {
-  /* ====== Conteúdo e Configurações ====== */
+  /* ====== Lista de Fotos dos Idosos (Variando dinamicamente) ====== */
+  const IMAGENS_IDOSOS = ['modelo1.png', 'modelo2.png', 'modelo3.png'];
+  // Imagem reserva (Unsplash) caso as imagens locais ainda não estejam na pasta
+  const FALLBACK_IMG = 'https://images.unsplash.com/photo-1581579438747-1dc8d1e05d92?auto=format&fit=crop&w=900&q=80';
+  
+  let imgIndex = 0;
+  const imgElement = document.getElementById('img-idoso');
+
+  // Alterna as fotos dos idosos com efeito de FADE
+  function rotacionarImagem() {
+    if (!imgElement) return;
+    
+    imgIndex = (imgIndex + 1) % IMAGENS_IDOSOS.length;
+    imgElement.classList.add('fade');
+
+    setTimeout(() => {
+      imgElement.src = IMAGENS_IDOSOS[imgIndex];
+      imgElement.classList.remove('fade');
+    }, 400);
+  }
+
+  // Se a imagem PNG local não for encontrada, aciona o fallback
+  if (imgElement) {
+    imgElement.addEventListener('error', () => {
+      imgElement.src = FALLBACK_IMG;
+    });
+  }
+
+  // Alterna a foto a cada 5 segundos
+  setInterval(rotacionarImagem, 5000);
+
+  /* ====== Perguntas e Notas ====== */
   const PERGUNTAS = [
     'Como foi o acolhimento na recepção?',
     'O tempo de espera foi satisfatório?',
@@ -26,11 +57,11 @@ document.addEventListener('DOMContentLoaded', () => {
     '<path d="M27 58 Q50 92 73 58 Z" fill="#fff" />'
   ];
 
-  const TEMPO_INATIVIDADE = 45; // segundos até o aviso
-  const TEMPO_AVISO = 15;       // segundos para fechar o aviso
-  const TEMPO_FIM = 10;         // segundos no encerramento
+  const TEMPO_INATIVIDADE = 45;
+  const TEMPO_AVISO = 15;
+  const TEMPO_FIM = 10;
 
-  /* ====== Elementos ====== */
+  /* ====== Dom ====== */
   const $ = (id) => document.getElementById(id);
   const telaInicio = $('tela-inicio');
   const telaPergunta = $('tela-pergunta');
@@ -44,12 +75,10 @@ document.addEventListener('DOMContentLoaded', () => {
   let respostas = new Array(PERGUNTAS.length).fill(null);
   let tIdle = null, tAviso = null, tFim = null;
 
-  /* ====== Rostos SVG ====== */
   function criarRostoSVG(nivel) {
-    const corFundo = NOTAS[nivel].cor;
     return `
       <svg class="rosto" viewBox="0 0 100 100" aria-hidden="true">
-        <circle cx="50" cy="50" r="46" fill="${corFundo}" stroke="#0F172A" stroke-width="3.5"/>
+        <circle cx="50" cy="50" r="46" fill="${NOTAS[nivel].cor}" stroke="#0F172A" stroke-width="3.5"/>
         <circle cx="35" cy="40" r="5" fill="#0F172A"/>
         <circle cx="65" cy="40" r="5" fill="#0F172A"/>
         <g fill="none" stroke="#0F172A" stroke-width="5" stroke-linecap="round" stroke-linejoin="round">
@@ -59,7 +88,6 @@ document.addEventListener('DOMContentLoaded', () => {
     `;
   }
 
-  // Monta a escala de notas 0-5
   NOTAS.forEach((nt) => {
     const btn = document.createElement('button');
     btn.type = 'button';
@@ -72,7 +100,7 @@ document.addEventListener('DOMContentLoaded', () => {
       <span class="num">${nt.n}</span>
       <span class="rot">${nt.rot}</span>
       <span class="ok" aria-hidden="true">
-        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3.5" stroke-linecap="round" stroke-linejoin="round">
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3.5" stroke-linecap="round" stroke-linejoin="round" width="16" height="16">
           <path d="M20 6L9 17l-5-5"/>
         </svg>
       </span>
@@ -109,7 +137,6 @@ document.addEventListener('DOMContentLoaded', () => {
       : (eUltima ? 'Enviar avaliação' : 'Confirmar e continuar');
   }
 
-  /* ====== Navegação ====== */
   function mostrar(tela) {
     [telaInicio, telaPergunta, telaFim].forEach((t) => { t.hidden = t !== tela; });
   }
@@ -147,15 +174,8 @@ document.addEventListener('DOMContentLoaded', () => {
     }
   }
 
-  /* ====== Finalização ====== */
   function finalizar() {
     limparTimers();
-    
-    console.log('Avaliação Registrada:', {
-      data: new Date().toISOString(),
-      respostas: PERGUNTAS.map((p, i) => ({ pergunta: p, nota: respostas[i] }))
-    });
-
     mostrar(telaFim);
 
     let s = TEMPO_FIM;
@@ -168,7 +188,6 @@ document.addEventListener('DOMContentLoaded', () => {
     }, 1000);
   }
 
-  /* ====== Inatividade ====== */
   function limparTimers() {
     clearTimeout(tIdle);
     clearTimeout(tAviso);
@@ -187,7 +206,6 @@ document.addEventListener('DOMContentLoaded', () => {
     }, TEMPO_INATIVIDADE * 1000);
   }
 
-  /* ====== Eventos ====== */
   document.addEventListener('pointerdown', () => {
     if (aviso.hidden) resetInatividade();
   });
