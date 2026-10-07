@@ -1,1 +1,98 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover">
+  <title>Totem de Avaliação de Atendimento</title>
 
+  <!-- Fontes Google -->
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Atkinson+Hyperlegible:wght@400;700&display=swap" rel="stylesheet">
+
+  <!-- Estilos -->
+  <link rel="stylesheet" href="style.css">
+</head>
+<body>
+
+  <div id="app">
+
+    <!-- Cabeçalho Global (Espaço para Logo) -->
+    <header class="header-logo">
+      <img src="logo.svg" alt="Logo da Empresa" class="brand-logo" id="logo-img" onError="this.style.display='none'; document.getElementById('logo-placeholder').style.display='flex';">
+      <!-- Placeholder visual exibido caso logo.svg ainda não esteja na pasta -->
+      <div id="logo-placeholder" class="logo-fallback" style="display:none;">
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M12 2L2 7l10 5 10-5-10-5zM2 17l10 5 10-5M2 12l10 5 10-5"/></svg>
+        <span>Sua Logo Aqui</span>
+      </div>
+    </header>
+
+    <!-- 1. Tela Inicial -->
+    <section class="screen start" id="tela-inicio" aria-labelledby="titulo-inicio">
+      <div class="content-box">
+        <h1 id="titulo-inicio">Como foi o seu atendimento hoje?</h1>
+        <p>Sua opinião é fundamental. Leva menos de 1 minuto e é totalmente anônima.</p>
+        
+        <button class="cta" id="btn-comecar" type="button">
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
+            <path d="M22 14a8 8 0 0 1-8 8"/>
+            <path d="M18 11v-1a2 2 0 0 0-2-2a2 2 0 0 0-2 2"/>
+            <path d="M14 10V9a2 2 0 0 0-2-2a2 2 0 0 0-2 2v1"/>
+            <path d="M10 9.5V4a2 2 0 0 0-2-2a2 2 0 0 0-2 2v10"/>
+            <path d="M18 11a2 2 0 1 1 4 0v3a8 8 0 0 1-8 8h-2c-2.8 0-4.5-.86-5.99-2.34l-3.6-3.6a2 2 0 0 1 2.83-2.82L7 15"/>
+          </svg>
+          Toque para começar
+        </button>
+      </div>
+    </section>
+
+    <!-- 2. Tela de Perguntas -->
+    <section class="screen" id="tela-pergunta" hidden aria-live="polite">
+      <div class="top-nav">
+        <div class="step" id="passo">Pergunta 1 de 5</div>
+        <div class="bar" id="barra" aria-hidden="true"></div>
+      </div>
+
+      <div class="question-container">
+        <h1 class="question" id="texto-pergunta"></h1>
+        <p class="hint">Toque na opção que melhor descreve sua experiência:</p>
+        
+        <fieldset class="scale" id="escala" aria-label="Notas de 0 a 5"></fieldset>
+      </div>
+
+      <div class="footer">
+        <button class="btn btn-sec" id="btn-voltar" type="button">Voltar</button>
+        <button class="btn btn-pri" id="btn-avancar" type="button" aria-disabled="true">Escolha uma nota</button>
+      </div>
+    </section>
+
+    <!-- 3. Tela de Agradecimento -->
+    <section class="screen thanks" id="tela-fim" hidden>
+      <div class="thanks-card">
+        <div class="selo" aria-hidden="true">
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3" stroke-linecap="round" stroke-linejoin="round">
+            <path d="M4 12.5l5 5L20 6.5"/>
+          </svg>
+        </div>
+        <h1>Muito obrigado!</h1>
+        <p>Sua avaliação foi registrada com sucesso e nos ajuda a melhorar constantemente.</p>
+        <p class="contagem" id="contagem"></p>
+        <button class="btn btn-sec" id="btn-inicio" type="button">Encerrar agora</button>
+      </div>
+    </section>
+
+    <!-- Modal de Inatividade -->
+    <div class="aviso" id="aviso" hidden role="alertdialog" aria-labelledby="aviso-titulo">
+      <div class="caixa">
+        <h2 id="aviso-titulo">Você ainda está aí?</h2>
+        <p>Toque no botão abaixo para continuar de onde parou.</p>
+        <button class="btn btn-pri" id="btn-continuar" type="button">Sim, quero continuar</button>
+      </div>
+    </div>
+
+  </div>
+
+  <!-- Scripts -->
+  <script src="script.js"></script>
+</body>
+</html>
