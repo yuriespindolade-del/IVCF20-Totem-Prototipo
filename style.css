@@ -43,23 +43,26 @@ html, body {
   flex-direction: column;
 }
 
-/* Trava global contra estouro de SVGs */
+/* Trava dimensional global para vetores */
 svg {
   max-width: 100%;
   max-height: 100%;
   flex-shrink: 0;
 }
 
-/* ---------- Header & Logo ---------- */
+/* ---------- Header e Área do Quiosque ---------- */
 .header-logo {
   position: absolute;
   top: clamp(16px, 3vh, 32px);
   left: clamp(20px, 4vw, 48px);
-  z-index: 20;
+  z-index: 50; /* Prioridade de toque */
+  cursor: pointer;
+  padding: 10px;
+  margin: -10px;
 }
 
 .brand-logo {
-  height: clamp(70px, 6vh, 90px);
+  height: clamp(40px, 6vh, 68px);
   width: auto;
   object-fit: contain;
 }
@@ -152,7 +155,6 @@ svg {
   background: var(--primary-hover);
 }
 
-/* Lista de Diferenciais */
 .features-list {
   display: flex;
   align-items: center;
@@ -187,7 +189,7 @@ svg {
   height: 22px;
 }
 
-/* Container de Imagem PNG (Direita) */
+/* Container de Imagens de Idosos com Rotação */
 .hero-image-wrapper {
   position: relative;
   display: flex;
